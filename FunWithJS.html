@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+  #farm
+  {
+    height: 50px;
+    width: 50px;
+    background-color: blue;
+    position:absolute;
+    left: 100px;
+    top: 250px;
+  }
+  #farmStats
+  {
+    heigth: 100px;
+    width: 80px;
+    background-color: green;
+  }
+  #castle
+  {
+    height: 100px;
+    width: 80px;
+    background-color: grey;
+    position: absolute;
+    left: 150px;
+    top: 100px;
+  }
+  #castleStats
+  {
+    height: 100px;
+    width: 80px;
+    background-color: green;
+  }
+  </style>
+</head>
+
+
+
+<body>
+<div id="player_nav">
+<div id="player_stats" onclick="player.displayMCount()">Militia Count: </div>
+</div>
+<div id="farm" onclick="showStats(farm, player)">Farm</div>
+<div id="castle" onclick="showStats(castle, player)">Castle</div>
+
+
+</body>
+<script src="funJS.js"></script>
