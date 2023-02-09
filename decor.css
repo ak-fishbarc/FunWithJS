@@ -1,0 +1,50 @@
+#farm
+{
+  height: 50px;
+  width: 50px;
+  background-color: blue;
+  position:absolute;
+  left: 100px;
+  top: 250px;
+}
+#farmStats
+{
+  heigth: 100px;
+  width: 80px;
+  background-color: green;
+}
+#castle
+{
+  height: 100px;
+  width: 80px;
+  background-color: grey;
+  position: absolute;
+  left: 150px;
+  top: 100px;
+}
+#castleStats
+{
+  height: 100px;
+  width: 80px;
+  background-color: green;
+}
+/* Later to be swapped with an icon. */
+#construction
+{
+  height: 80px;
+  width: 80px;
+  text-align: center;
+  background-color: brown;
+}
+#constrBuild
+{
+  height: 200px;
+  width: 80px;
+  background-color: grey;
+}
+#castleIcon
+{
+  height: 30px;
+  width: 30px;
+  background-color: green;
+}
