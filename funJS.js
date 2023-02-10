@@ -36,16 +36,44 @@ player = createPlayer("Player1");
 // to catch them all.
 function removeOptions(entity)
 {
-  console.log("Here");
   constrBuild = document.getElementById("constrBuild");
   document.getElementById(entity.id).removeChild(constrBuild);
   document.getElementById(entity.id).onclick = function() { constrOptions(entity) };
 }
 
-function createCastle()
+/* Set of functions to move around and position a new building; Castle in this
+case. Later this functions will include more options, like building farms and units, etc. */
+
+function positionCastle(event, castle)
 {
-  console.log("Nothing for now");
+  document.onclick = function(event) { putCastle(event, castle) }
 }
+
+function putCastle(event, castle)
+{
+    document.onmousemove = "";
+    document.onclick = "";
+    castle.style.top = event.clientY + "px";
+    castle.style.left = event.clientX + "px";
+    document.body.appendChild(castle);
+}
+
+function moveCastle(event, castle, entity)
+{
+  document.onmousemove = function(event) { positionCastle(event, castle) };
+  entity.onmouseleave = "";
+}
+
+function createCastle(event, entity)
+{
+  newCastle = document.createElement("div");
+  // Later there will be a list of all the IDs so that each building has it's own
+  // id.
+  newCastle.id = "newCastle";
+  entity.onmouseleave = function(event) { moveCastle(event, newCastle, entity) };
+}
+
+
 // Create options for building creation
 function constrOptions(entity)
 {
@@ -59,7 +87,7 @@ function constrOptions(entity)
   castleIcon = document.createElement("div");
   castleIcon.id = "castleIcon";
   document.getElementById("constrBuild").appendChild(castleIcon);
-  document.getElementById("castleIcon").onclick = function() { createCastle() };
+  document.getElementById("castleIcon").onclick = function() { createCastle(event, entity) };
 }
 
 

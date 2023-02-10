@@ -48,3 +48,10 @@
   width: 30px;
   background-color: green;
 }
+#newCastle
+{
+  position: fixed;
+  height: 100px;
+  width: 80px;
+  background-color: grey;
+}
