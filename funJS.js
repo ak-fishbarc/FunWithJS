@@ -1,5 +1,5 @@
 const players = []
-
+const buildings = []
 
 // Create functions.
 function createPlayer(name)
@@ -50,6 +50,9 @@ player = createPlayer("Player1");
 start_castle = buildCastle("start_castle");
 start_farm = buildFarm("start_farm");
 
+buildings.push(start_castle);
+buildings.push(start_farm);
+
 function removeOptions(entity)
 {
   construct_building = document.getElementById("construct_building");
@@ -63,15 +66,25 @@ function attachEvents(entity)
   document.getElementById(entity.identity).onclick = function() { showStats(entity, player); };
 }
 
+function createIdentity(const_name)
+{
+  return identity = const_name + buildings.length.toString();
+}
+
 function putCastle(event, castle)
 {
   document.onmousemove = "";
   document.onclick = "";
+  castle.style.position = "fixed";
+  castle.style.height = "100px";
+  castle.style.width = "80px";
+  castle.style.backgroundColor = "grey";
   castle.style.top = event.clientY + "px";
   castle.style.left = event.clientX + "px";
+
   document.body.appendChild(castle);
-  castle2 = buildCastle("new_castle");
-  attachEvents(castle2);
+  new_castle = buildCastle(castle.id);
+  attachEvents(new_castle);
 }
 
 function positionCastle(event, castle)
@@ -88,7 +101,8 @@ function moveCastle(event, castle, entity)
 function createCastle(event, entity)
 {
   new_castle = document.createElement("div");
-  new_castle.id = "new_castle";
+  new_identity = createIdentity("castle");
+  new_castle.id = new_identity;
   entity.onmouseleave = function(event) { moveCastle(event, new_castle, entity); };
 }
 
