@@ -1,30 +1,26 @@
-
-////////////////////////////////////////////////////////////////////////////////
-//////////                      NOTE !                                   ///////
-////////////////////////////////////////////////////////////////////////////////
-/// This code will need major refactoring to sort identity/id/name confusion ///
-////////////////////////////////////////////////////////////////////////////////
-
-
 const players = []
 
-/* Create player */
+
+// Create functions.
 function createPlayer(name)
 {
-  const player = {
-    name: name,
+  const player =
+  {
+    player_name: name,
     militia_count: 0,
-    displayMCount: function() {
+    displayMilitiaCount: function()
+    {
       document.getElementById("player_stats").innerHTML = `Militia Count: ${this.militia_count}`;
     }
   }
   return player;
 };
 
-function constrCastle(identity)
+function buildCastle(identity)
 {
-  const castle = {
-    name: "castle",
+  const castle_building =
+  {
+    const_name: "castle",
     identity: identity,
     hp: 1000,
     food: 10,
@@ -32,13 +28,14 @@ function constrCastle(identity)
     stone: 50,
     gold: 100
   };
-  return castle;
+  return castle_building;
 };
 
-function constrFarm(identity)
+function buildFarm(identity)
 {
-  const farm = {
-    name: "farm",
+  const farm_building =
+  {
+    const_name: "farm",
     identity: identity,
     hp: 100,
     food: 5,
@@ -46,44 +43,40 @@ function constrFarm(identity)
     stone: 5,
     gold: 10
   };
-  return farm;
+  return farm_building;
 };
 
 player = createPlayer("Player1");
-castle1 = constrCastle("castle1");
-farm1 = constrFarm("farm1");
+start_castle = buildCastle("start_castle");
+start_farm = buildFarm("start_farm");
 
-
-// Later might be refactored together with hideStats to create one function
-// to catch them all.
 function removeOptions(entity)
 {
-  constrBuild = document.getElementById("constrBuild");
-  document.getElementById(entity.id).removeChild(constrBuild);
-  document.getElementById(entity.id).onclick = function() { constrOptions(entity) };
+  construct_building = document.getElementById("construct_building");
+  document.getElementById(entity.id).removeChild(construct_building);
+  document.getElementById(entity.id).onclick = function() { constructionOptions(entity); };
 }
 
-/* Set of functions to move around and position a new building; Castle in this
-case. Later this functions will include more options, like building farms and units, etc. */
 function attachEvents(entity)
 {
-  document.getElementById(entity.identity).innerHTML = entity.name;
+  document.getElementById(entity.identity).innerHTML = entity.const_name;
   document.getElementById(entity.identity).onclick = function() { showStats(entity, player); };
-}
-function positionCastle(event, castle)
-{
-  document.onclick = function(event) { putCastle(event, castle) }
 }
 
 function putCastle(event, castle)
 {
-    document.onmousemove = "";
-    document.onclick = "";
-    castle.style.top = event.clientY + "px";
-    castle.style.left = event.clientX + "px";
-    document.body.appendChild(castle);
-    castle2 = constrCastle("newCastle");
-    attachEvents(castle2);
+  document.onmousemove = "";
+  document.onclick = "";
+  castle.style.top = event.clientY + "px";
+  castle.style.left = event.clientX + "px";
+  document.body.appendChild(castle);
+  castle2 = buildCastle("new_castle");
+  attachEvents(castle2);
+}
+
+function positionCastle(event, castle)
+{
+  document.onclick = function(event) { putCastle(event, castle); };
 }
 
 function moveCastle(event, castle, entity)
@@ -94,93 +87,69 @@ function moveCastle(event, castle, entity)
 
 function createCastle(event, entity)
 {
-  newCastle = document.createElement("div");
-  // Later there will be a list of all the IDs so that each building has it's own
-  // id.
-  newCastle.id = "newCastle";
-  entity.onmouseleave = function(event) { moveCastle(event, newCastle, entity); };
+  new_castle = document.createElement("div");
+  new_castle.id = "new_castle";
+  entity.onmouseleave = function(event) { moveCastle(event, new_castle, entity); };
 }
 
-
-// Create options for building creation
-function constrOptions(entity)
+// Building construction options
+function constructionOptions(entity)
 {
-  console.log(entity)
-  constrBuild = document.createElement("div");
-  constrBuild.id = "constrBuild";
-  document.getElementById(entity.id).appendChild(constrBuild);
+  construct_building = document.createElement("div");
+  construct_building.id = "construct_building";
+
+  document.getElementById(entity.id).appendChild(construct_building);
   document.getElementById(entity.id).onclick = function() { removeOptions(entity); };
 
-  // Temporarily Here
-  castleIcon = document.createElement("div");
-  castleIcon.id = "castleIcon";
-  document.getElementById("constrBuild").appendChild(castleIcon);
-  document.getElementById("castleIcon").onclick = function() { createCastle(event, entity); };
+  castle_icon = document.createElement("div");
+  castle_icon.id = "castle_icon";
+
+  document.getElementById("construct_building").appendChild(castle_icon);
+  document.getElementById("castle_icon").onclick = function() { createCastle(event, entity); };
 }
 
 
-/* Create militia. Add count of militia to player's stats */
 function createMilitia(player)
 {
-    player.militia_count += 1;
+  player.militia_count += 1;
 }
 
-/* Add "button" to create militia, when player clicks on the castle */
-function castleBuildsFun(entity, player)
+// Add "button" to create militia; when player clicks on the castle
+function castleBuildUnits(entity, player)
 {
-  castleBuilds = document.createElement("div");
-  castleBuilds.innerHTML = "Build Militia";
-  castleBuilds.id = "castleBuilds";
-  document.getElementById(entity.id).appendChild(castleBuilds);
-  castleBuilds.onclick = function() { createMilitia(player); };
+  castle_build_units = document.createElement("div");
+  castle_build_units.innerHTML = "Build Miltia";
+  // Id of the element.
+  castle_build_units.id = "castle_build_units";
+  document.getElementById(entity.id).appendChild(castle_build_units);
+  castle_build_units.onclick = function () { createMilitia(player); };
 }
 
-// Hide stats for buildings.
 function hideStats(entity)
 {
-  entityStats = document.getElementById(entity.name+"Stats");
-  document.getElementById(entity.identity).removeChild(entityStats);
+  entity_stats = document.getElementById(entity.identity +"_stats");
+  document.getElementById(entity.identity).removeChild(entity_stats);
   document.getElementById(entity.identity).onclick = function() { showStats(entity, player); };
 }
 
-/* Show stats for buildings, when clicked on. Creates element in HTML and
- shows information about the building.*/
+// Show building stats when clicked upon.
 function showStats(entity, player)
 {
   console.log(entity)
-  entityStats = document.createElement("div")
-  entityStats.innerHTML = entity.name + "<br>" + "HP: " + entity.hp + "<br>" +
-  "Food: " + entity.food;
-  entityStats.id = entity.name+"Stats";
-  document.getElementById(entity.identity).appendChild(entityStats);
+  // Create element. It's id is made of building's identity and _stats prefix.
+  entity_stats = document.createElement("div");
+  entity_stats.innerHTML = entity.const_name + "<br>" + "HP: " + entity.hp +
+  "<br>" + "Food: " + entity.food;
+  entity_stats.id = entity.identity + "_stats";
+
+
+  document.getElementById(entity.identity).appendChild(entity_stats);
+  // Add function to remove stats.
   document.getElementById(entity.identity).onclick = function() { hideStats(entity); };
 
-  // Extra function for castles. Allowing castles to build militia.
-  if(entityStats.id == "castleStats")
+  // Function for castles to allow them to build units.
+  if(entity_stats.id.search('castle'))
   {
-    castleBuildsFun(entityStats, player);
+    castleBuildUnits(entity_stats, player);
   }
 }
-
-/* Old code, kept here just temporarily
-
-const farm = {
-  name: "farm",
-  hp: 100,
-  food: 5,
-  wood: 15,
-  stone: 5,
-  gold: 10
-};
-
-const castle = {
-  name: "castle",
-  identy: "",
-  hp: 1000,
-  food: 10,
-  wood: 20,
-  stone: 50,
-  gold: 100
-};
-
-*/
