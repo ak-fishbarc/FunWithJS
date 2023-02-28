@@ -1,4 +1,4 @@
-#farm1
+#start_farm
 {
   height: 50px;
   width: 50px;
@@ -7,22 +7,22 @@
   left: 100px;
   top: 250px;
 }
-#farmStats
+#start_farm_stats
 {
-  heigth: 100px;
+  height: 100px;
   width: 80px;
   background-color: green;
 }
-#castle1
+#start_castle
 {
   height: 100px;
   width: 80px;
   background-color: grey;
   position: absolute;
   left: 150px;
-  top: 100px;
+  top: 250px;
 }
-#castleStats
+#start_castle_stats
 {
   height: 100px;
   width: 80px;
@@ -36,19 +36,19 @@
   text-align: center;
   background-color: brown;
 }
-#constrBuild
+#construct_building
 {
   height: 200px;
   width: 80px;
   background-color: grey;
 }
-#castleIcon
+#castle_icon
 {
   height: 30px;
   width: 30px;
   background-color: green;
 }
-#newCastle
+#new_castle
 {
   position: fixed;
   height: 100px;
