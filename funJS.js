@@ -50,6 +50,9 @@ player = createPlayer("Player1");
 start_castle = buildCastle("start_castle");
 start_farm = buildFarm("start_farm");
 
+
+players.push(player);
+
 buildings.push(start_castle);
 buildings.push(start_farm);
 
@@ -71,17 +74,45 @@ function createIdentity(const_name)
   return identity = const_name + buildings.length.toString();
 }
 
+/// For now, all the building function are done for castles, just as a prototype.
+/// As initial function get sorted out, this will change.
+
+function checkPlace(entity)
+{
+  result = ""
+  // Code for collision detection. Get borders of each object.
+  es = entity.style
+  for(i = 0; i < buildings.length ; i++)
+  {
+    // Currently only start objects use separate CSS file;
+    // This is why style properties of those objects need this extra line of code.
+    html_element = window.getComputedStyle(document.getElementById(buildings[i].identity))
+    // Check for collision.
+    if(parseInt(es.left) + parseInt(es.width) < parseInt(html_element.left) || parseInt(es.top) + parseInt(es.height) < parseInt(html_element.top)
+      || parseInt(html_element.left) + parseInt(html_element.width) < parseInt(es.left) || parseInt(html_element.top) + parseInt(html_element.height) < parseInt(es.top))
+    {
+      // This comparision is due to looping through all the buildings on the map.
+      // If there is a collision with any building it must return red.
+      // This part is to be refactored but I don't have any more time today to do that.
+      if(result != "Red" || result == "")
+      {
+        result = "Green";
+      }
+    }
+    else
+    {
+      result = "Red";
+    }
+  }
+  return result;
+}
+
 function putCastle(event, castle)
 {
   document.onmousemove = "";
   document.onclick = "";
   castle.style.position = "fixed";
-  castle.style.height = "100px";
-  castle.style.width = "80px";
   castle.style.backgroundColor = "grey";
-  castle.style.top = event.clientY + "px";
-  castle.style.left = event.clientX + "px";
-
   document.body.appendChild(castle);
   new_castle = buildCastle(castle.id);
   attachEvents(new_castle);
@@ -89,7 +120,20 @@ function putCastle(event, castle)
 
 function positionCastle(event, castle)
 {
-  document.onclick = function(event) { putCastle(event, castle); };
+
+  castle.style.height = "100px";
+  castle.style.width = "80px";
+  castle.style.top = event.clientY + "px";
+  castle.style.left = event.clientX + "px";
+  if(checkPlace(castle) == "Green")
+  {
+    document.onclick = function(event) { putCastle(event, castle); };
+  }
+  else
+  {
+    document.onclick = "";
+  }
+  console.log(checkPlace(castle));
 }
 
 function moveCastle(event, castle, entity)
