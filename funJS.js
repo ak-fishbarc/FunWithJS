@@ -50,7 +50,9 @@ player = createPlayer("Player1");
 start_castle = buildCastle("start_castle");
 start_farm = buildFarm("start_farm");
 
+
 players.push(player);
+
 buildings.push(start_castle);
 buildings.push(start_farm);
 
@@ -77,6 +79,7 @@ function createIdentity(const_name)
 
 function checkPlace(entity)
 {
+  result = ""
   // Code for collision detection. Get borders of each object.
   es = entity.style
   for(i = 0; i < buildings.length ; i++)
@@ -88,13 +91,20 @@ function checkPlace(entity)
     if(parseInt(es.left) + parseInt(es.width) < parseInt(html_element.left) || parseInt(es.top) + parseInt(es.height) < parseInt(html_element.top)
       || parseInt(html_element.left) + parseInt(html_element.width) < parseInt(es.left) || parseInt(html_element.top) + parseInt(html_element.height) < parseInt(es.top))
     {
-        document.onclick = function(event) { putCastle(event, entity); };
+      // This comparision is due to looping through all the buildings on the map.
+      // If there is a collision with any building it must return red.
+      // This part is to be refactored but I don't have any more time today to do that.
+      if(result != "Red" || result == "")
+      {
+        result = "Green";
+      }
     }
     else
     {
-      console.log("You can't build here!");
+      result = "Red";
     }
   }
+  return result;
 }
 
 function putCastle(event, castle)
@@ -110,11 +120,20 @@ function putCastle(event, castle)
 
 function positionCastle(event, castle)
 {
+
   castle.style.height = "100px";
   castle.style.width = "80px";
   castle.style.top = event.clientY + "px";
   castle.style.left = event.clientX + "px";
-  checkPlace(castle);
+  if(checkPlace(castle) == "Green")
+  {
+    document.onclick = function(event) { putCastle(event, castle); };
+  }
+  else
+  {
+    document.onclick = "";
+  }
+  console.log(checkPlace(castle));
 }
 
 function moveCastle(event, castle, entity)
